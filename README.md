@@ -1,0 +1,1 @@
+# Yii2 Maps integration module
