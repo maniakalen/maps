@@ -14,7 +14,7 @@ $(document).ready(function() {
         var map = window.leaflet.map = L.map(mapId).setView(coords, zoom);
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            attribution: 'Майката Земя',
+            attribution: '',
             maxZoom: 18,
             id: 'mapbox.streets',
             accessToken: key
