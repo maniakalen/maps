@@ -31,7 +31,8 @@ class Location extends Component
 	{
 		$data = $this->searchGeoUnit($unit);
 		$data = json_decode($data);
-		$best = reset(array_filter($data, function($item) { return $item->importance > 0.6; }));
+		$best = array_filter($data, function($item) { return $item->importance > 0.6; });
+		$best = reset($best);
 		return $best?[$best->lat, $best->lon]:[];
 	}
 }
