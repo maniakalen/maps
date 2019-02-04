@@ -9,7 +9,9 @@
 namespace maniakalen\maps\components;
 
 
+use maniakalen\maps\interfaces\Negotiator;
 use yii\base\Component;
+use yii\di\Instance;
 
 /**
  * Class Location
@@ -23,9 +25,16 @@ class Location extends Component
     /**
      * LocationIQ API KEY
      *
-     * @var string $key
+     * @var Negotiator $negotiator
      */
-	public $key;
+	public $negotiator;
+
+	public function init()
+    {
+        parent::init();
+
+        $this->negotiator = Instance::ensure($this->negotiator, 'maniakalen\maps\interfaces\Negotiator');
+    }
 
     /**
      * This method returns a geounit data in json format for the query string provider
@@ -59,8 +68,7 @@ class Location extends Component
      */
 	public function searchGeoUnit($unit)
 	{
-		return $this->curl('https://eu1.locationiq.com/v1/search.php?key='
-                           . $this->key . '&q=' . urlencode($unit) . '&format=json');
+		return $this->curl(sprintf($this->negotiator->getSearchByNameUrl(), urlencode($unit)));
 	}
 
     /**
@@ -73,11 +81,7 @@ class Location extends Component
      */
 	public function getGeoUnitCoords($unit)
 	{
-		$data = $this->searchGeoUnit($unit);
-		$data = json_decode($data);
-		$best = array_filter($data, function($item) { return $item->importance > 0.6; });
-		$best = reset($best);
-		return $best?[$best->lat, $best->lon]:[];
+		return $this->negotiator->getGeoUnitCoords($unit);
 	}
 
     /**
@@ -118,7 +122,7 @@ class Location extends Component
      */
 	public function searchCoords($lat, $lon)
     {
-        $url = "https://eu1.locationiq.com/v1/reverse.php?key={$this->key}&lat={$lat}&lon={$lon}&format=json";
+        $url = sprintf($this->negotiator->getSearchByCoordsUrl(), $lat, $lon);
         return $this->curl($url);
     }
 
