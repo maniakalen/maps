@@ -15,6 +15,7 @@ class LocationIq implements Negotiator
 {
     public $key;
     public $format = 'json';
+    public $supportsParams;
     public function getSearchByNameUrl()
     {
         return 'https://eu1.locationiq.com/v1/search.php?key='
@@ -32,5 +33,10 @@ class LocationIq implements Negotiator
         $best = array_filter($data, function($item) { return $item->importance > 0.6; });
         $best = reset($best);
         return $best?[$best->lat, $best->lon]:[];
+    }
+
+    public function supportsSearchParams()
+    {
+        return $this->supportsParams;
     }
 }

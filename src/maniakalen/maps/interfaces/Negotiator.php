@@ -14,4 +14,5 @@ interface Negotiator
     public function getSearchByNameUrl();
     public function getSearchByCoordsUrl();
     public function getGeoUnitCoords($data);
+    public function supportsSearchParams();
 }

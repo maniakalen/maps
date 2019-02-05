@@ -15,6 +15,7 @@ class Here implements Negotiator
 {
     public $appId;
     public $appCode;
+    public $supportsParams;
     public $format = 'json';
     public function getSearchByNameUrl()
     {
@@ -43,5 +44,10 @@ class Here implements Negotiator
         }
 
         return [];
+    }
+
+    public function supportsSearchParams()
+    {
+        return $this->supportsParams;
     }
 }

@@ -66,9 +66,16 @@ class Location extends Component
      *
      * @return string
      */
-	public function searchGeoUnit($unit)
+	public function searchGeoUnit($unit, array $params = [])
 	{
-		return $this->curl(sprintf($this->negotiator->getSearchByNameUrl(), urlencode($unit)));
+        $url = sprintf($this->negotiator->getSearchByNameUrl(), urlencode($unit));
+        if ($this->negotiator->supportsSearchParams() && !empty($params)) {
+            foreach ($params as $key => $value) {
+                $url .= sprintf("&{$key}=%s", urlencode($value));
+            }
+        }
+
+		return $this->curl($url);
 	}
 
     /**
@@ -120,9 +127,14 @@ class Location extends Component
      *
      * @return mixed
      */
-	public function searchCoords($lat, $lon)
+	public function searchCoords($lat, $lon, array $params = [])
     {
         $url = sprintf($this->negotiator->getSearchByCoordsUrl(), $lat, $lon);
+        if ($this->negotiator->supportsSearchParams() && !empty($params)) {
+            foreach ($params as $key => $value) {
+                $url .= sprintf("&{$key}=%s", urlencode($value));
+            }
+        }
         return $this->curl($url);
     }
 
