@@ -1,7 +1,9 @@
 $(document).ready(function() {
     window.leaflet = window.leaflet || {
         "map": false,
-        'addPopup': function(coords, content, options) {
+        "markers": [],
+        "popups": [],
+        "addPopup": function(coords, content, options) {
             if (!window.leaflet.map) { return; }
             options = options || {closeButton:false};
             var popup = L.popup(options)
@@ -9,14 +11,25 @@ $(document).ready(function() {
                 .setContent(content);
             window.leaflet.map.addLayer(popup);
         },
-        'addMarker': function(coords, popupContent) {
+        "addMarker": function(coords, popupContent) {
             if (!window.leaflet.map) { return; }
             popupContent = popupContent || false;
             var marker = L.marker(coords).addTo(window.leaflet.map);
             if (popupContent) {
                 marker.bindPopup(popupContent).openPopup();
             }
-        }
+        },
+        "removeMarker" : function(params) {
+            if (parseInt(params) > 0 && typeof leaflet.markers[params] !== 'undefined') {
+                var marker = leaflet.markers[params];
+            } else if (typeof params === 'Array') {
+                $.map(leaflet.markers, function(marker) {
+                    var coords = marker.getLatLng();
+
+                });
+            }
+        },
+        "removePopup" : function() {},
     };
     window.initMap = function(mapId, key, coords, zoom, options) {
         options = options || {};
