@@ -25,12 +25,13 @@ class LeafletAsset extends AssetBundle implements MapAssetInterface
 		'css/leaflet.css'
 	];
 
-	public static function registerMapAsset( $view, $mapId, $key, $coords, $zoom ) {
+	public static function registerMapAsset( $view, $mapId, $key, $coords, $zoom, $options) {
 		if (!is_array($coords) || !isset($coords[0]) || !isset($coords[1])) {
 			return false;
 		}
 		$result = parent::register( $view );
-		$view->registerJs("initMap('$mapId', '$key', [{$coords[0]}, {$coords[1]}], $zoom)");
+		$opts = json_encode($options, JSON_UNESCAPED_UNICODE);
+		$view->registerJs("initMap('$mapId', '$key', [{$coords[0]}, {$coords[1]}], $zoom, $opts)");
 		return $result;
 	}
 }

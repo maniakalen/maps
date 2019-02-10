@@ -10,5 +10,5 @@ namespace maniakalen\maps\assets;
 
 
 interface MapAssetInterface {
-	public static function registerMapAsset($view, $mapId, $key, $coords, $zoom);
+	public static function registerMapAsset($view, $mapId, $key, $coords, $zoom, $options);
 }
