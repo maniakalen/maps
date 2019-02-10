@@ -8,6 +8,14 @@ $(document).ready(function() {
                 .setLatLng(coords)
                 .setContent(content);
             window.leaflet.map.addLayer(popup);
+        },
+        'addMarker': function(coords, popupContent) {
+            if (!window.leaflet.map) { return; }
+            popupContent = popupContent || false;
+            var marker = L.marker(coords).addTo(window.leaflet.map);
+            if (popupContent) {
+                marker.bindPopup(popupContent).openPopup();
+            }
         }
     };
     window.initMap = function(mapId, key, coords, zoom, options) {
