@@ -19,17 +19,11 @@ $(document).ready(function() {
                 marker.bindPopup(popupContent).openPopup();
             }
         },
-        "removeMarker" : function(params) {
-            if (parseInt(params) > 0 && typeof leaflet.markers[params] !== 'undefined') {
-                var marker = leaflet.markers[params];
-            } else if (typeof params === 'Array') {
-                $.map(leaflet.markers, function(marker) {
-                    var coords = marker.getLatLng();
-
-                });
-            }
-        },
-        "removePopup" : function() {},
+        "clear": function() {
+            $.map(leaflet.markers.concat(leaflet.popups), function(i) {
+                i.removeFrom(leaflet.map);
+            });
+        }
     };
     window.initMap = function(mapId, key, coords, zoom, options) {
         options = options || {};
