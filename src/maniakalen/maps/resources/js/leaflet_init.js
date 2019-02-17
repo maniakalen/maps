@@ -10,6 +10,7 @@ $(document).ready(function() {
                 .setLatLng(coords)
                 .setContent(content);
             window.leaflet.map.addLayer(popup);
+            this.popups.push(popup);
         },
         "addMarker": function(coords, popupContent) {
             if (!window.leaflet.map) { return; }
@@ -18,6 +19,7 @@ $(document).ready(function() {
             if (popupContent) {
                 marker.bindPopup(popupContent).openPopup();
             }
+            this.markers.push(marker);
         },
         "clear": function() {
             $.map(leaflet.markers.concat(leaflet.popups), function(i) {
